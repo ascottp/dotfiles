@@ -147,7 +147,7 @@ filetype on                   " try to detect filetypes
 filetype plugin indent on     " enable loading indent file for filetype
 set number                    " Display line numbers
 set numberwidth=4             " using only 1 column (and 1 space) while possible
-set title                     " show title in console title bar
+set notitle                   " don't show title in console title bar
 set wildmenu                  " Menu completion in command mode on <Tab>
 set wildmode=full             " <Tab> cycles between all matching choices.
 set textwidth=79
