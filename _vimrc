@@ -56,6 +56,10 @@
 set nocompatible              " Don't be compatible with vi
 let mapleader=","             " change the leader to be a comma vs slash
 
+" map jj and kj to <esc> to save pinky
+inoremap kj <Esc>
+inoremap jj <Esc>
+
 " Seriously, guys. It's not like :W is bound to anything anyway.
 command! W :w
 
@@ -118,6 +122,15 @@ map <leader>j :RopeGotoDefinition<CR>
 
 " Rename whatever the cursor is on (including references to it)
 map <leader>r :RopeRename<CR>
+
+" Spell check
+map <F5> :setlocal spell! spelllang=en_us<CR>
+imap <F5> <C-o>:setlocal spell! spelllang=en_us<CR>
+
+" Use space to fold/unfold, (zR, zM to fold/unfold all)
+nnoremap <space> za
+vnoremap <space> zf
+
 " ==========================================================
 " Pathogen - Allows us to organize our vim plugins
 " ==========================================================
@@ -133,11 +146,11 @@ syntax on                     " syntax highlighing
 filetype on                   " try to detect filetypes
 filetype plugin indent on     " enable loading indent file for filetype
 set number                    " Display line numbers
-set numberwidth=1             " using only 1 column (and 1 space) while possible
-set background=dark           " We are using dark background in vim
+set numberwidth=4             " using only 1 column (and 1 space) while possible
 set title                     " show title in console title bar
 set wildmenu                  " Menu completion in command mode on <Tab>
 set wildmode=full             " <Tab> cycles between all matching choices.
+set textwidth=79
 
 " don't bell or blink
 set noerrorbells
@@ -150,19 +163,10 @@ set grepprg=ack-grep          " replace the default grep program with ack
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
 
-" Disable the colorcolumn when switching modes.  Make sure this is the
-" first autocmd for the filetype here
-autocmd FileType * setlocal colorcolumn=0
-
 """ Insert completion
 " don't select first item, follow typing in autocomplete
 set completeopt=menuone,longest,preview
 set pumheight=6             " Keep a small completion window
-
-" show a line at column 79
- if exists("&colorcolumn")
-    set colorcolumn=79
-endif
 
 """ Moving Around/Editing
 set cursorline              " have a line indicate the cursor location
@@ -211,10 +215,6 @@ set ruler                   " Show some info, even without statuslines.
 set laststatus=2            " Always show statusline, even if only 1 window.
 set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
 
-" displays tabs with :set list & displays when a line runs off-screen
-set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
-set list
-
 """ Searching and Patterns
 set ignorecase              " Default to using case insensitive searches,
 set smartcase               " unless uppercase letters are used in the regex.
@@ -224,9 +224,11 @@ set incsearch               " Incrementally search while typing a /regex
 
 """" Display
 if has("gui_running")
+    set background=dark
     colorscheme solarized
 else
-    colorscheme torte
+    set background=dark
+    colorscheme solarized
 endif
 
 " Paste from clipboard
@@ -243,6 +245,13 @@ nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Select the item in the list with enter
 "inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" ==========================================================
+" JSON
+" ==========================================================
+
+" tidify json
+map <leader>jt  <Esc>:%!json_xs -f json -t json-pretty<CR>
 
 " ==========================================================
 " Javascript
@@ -272,7 +281,16 @@ au BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\
 " Don't let pyflakes use the quickfix window
 let g:pyflakes_use_quickfix = 0
 
-
+function! HighlightBadChars()
+    if &modifiable
+        let tabs = "\t"
+        let trailingws = "\\s\\+$"
+        let rightmargin = "\\%<" . (&textwidth + 3) . "v.\\%>" . (&textwidth + 1) . "v"
+        let b:badcharsmatch = matchadd("ErrorMsg", tabs . "\\|" . trailingws . "\\|" . rightmargin)
+    endif
+endfunc
+autocmd BufReadPost *.py call HighlightBadChars()
+autocmd BufReadPost *.coffee call HighlightBadChars()
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
