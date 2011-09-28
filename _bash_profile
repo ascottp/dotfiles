@@ -1,0 +1,49 @@
+export PATH=/opt/local/sbin:$PATH
+export PATH=/opt/local/bin:$PATH
+export PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=~/bin:$PATH
+
+export PYTHONSTARTUP=~/.pythonrc.py
+
+export CLICOLOR=1
+export EDITOR=vim
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+parse_git_branch ()
+{
+  git name-rev HEAD 2> /dev/null | sed 's#HEAD\ \(.*\)#(git::\1)#'
+}
+
+parse_svn_branch() {
+  parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk -F / '{print "(svn::"$1 "/" $2 ")"}'
+}
+parse_svn_url() {
+  svn info 2>/dev/null | sed -ne 's#^URL: ##p'
+}
+parse_svn_repository_root() {
+  svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
+}
+
+#export PS1="$PS1\$(parse_git_branch)\$(parse_svn_branch)"
+
+# MacPorts Installer addition on 2010-07-15_at_00:04:47: adding an appropriate PATH variable for use with MacPorts.
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+if [ -f /opt/local/etc/bash_completion ]; then
+    . /opt/local/etc/bash_completion
+fi
+
+# get local machine specific settings
+if [ -f ~/.bash_local_profile ]; then
+    source ~/.bash_local_profile
+fi
+
+# Get the aliases and functions
+source ~/.bashrc
