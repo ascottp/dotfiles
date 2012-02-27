@@ -52,7 +52,8 @@ class TermColors(dict):
         ("Purple"      , "0;35"),
         ("Cyan"        , "0;36"),
         ("LightGray"   , "0;37"),
-        ("DarkGray"    , "1;30"), ("LightRed"    , "1;31"),
+        ("DarkGray"    , "1;30"),
+        ("LightRed"    , "1;31"),
         ("LightGreen"  , "1;32"),
         ("Yellow"      , "1;33"),
         ("LightBlue"   , "1;34"),
@@ -97,7 +98,7 @@ sys.displayhook = my_displayhook
 
 # Django Helpers
 def SECRET_KEY():
-    "Generates a new SECRET_KEY that can be used in a project settings file." 
+    "Generates a new SECRET_KEY that can be used in a project settings file."
 
     from random import choice
     return ''.join(
