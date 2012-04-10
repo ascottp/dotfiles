@@ -131,6 +131,10 @@ imap <F5> <C-o>:setlocal spell! spelllang=en_us<CR>
 nnoremap <space> za
 vnoremap <space> zf
 
+" Return to visual mode after indentation
+vnoremap < <gv
+vnoremap > >gv
+
 " ==========================================================
 " Pathogen - Allows us to organize our vim plugins
 " ==========================================================
