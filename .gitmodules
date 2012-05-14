@@ -46,12 +46,12 @@
 [submodule "_vim/bundle/ropevim"]
 	path = _vim/bundle/ropevim
 	url = https://github.com/sontek/rope-vim.git
-[submodule "_vim/bundle/pyflakes-pathogen"]
-	path = _vim/bundle/pyflakes-pathogen
-	url = https://github.com/mitechie/pyflakes-pathogen.git
 [submodule "_vim/bundle/vim-colors-solarized"]
 	path = _vim/bundle/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule "_vim/bundle/vim-coffee-script"]
 	path = _vim/bundle/vim-coffee-script
 	url = https://github.com/kchmck/vim-coffee-script.git
+[submodule "_vim/bundle/pyflakes"]
+	path = _vim/bundle/pyflakes
+	url = https://github.com/kevinw/pyflakes-vim.git
