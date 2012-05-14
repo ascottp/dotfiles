@@ -55,3 +55,6 @@
 [submodule "_vim/bundle/pyflakes"]
 	path = _vim/bundle/pyflakes
 	url = https://github.com/kevinw/pyflakes-vim.git
+[submodule "_vim/bundle/powerline"]
+	path = _vim/bundle/powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
